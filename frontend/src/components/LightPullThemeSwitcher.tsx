@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 
 export const LightPullThemeSwitcher: React.FC = () => {
-  const controls = useAnimationControls();
-
   const [isDark, setIsDark] = useState<boolean>(() => {
     if (typeof document !== "undefined") {
       return document.documentElement.classList.contains("dark");
@@ -12,6 +10,10 @@ export const LightPullThemeSwitcher: React.FC = () => {
   });
 
   const isDraggingRef = useRef(false);
+  const dragY = useMotionValue(0);
+
+  // Cord height stretches from resting height (52px) down as dragY increases, with top anchor fixed
+  const cordScaleY = useTransform(dragY, (latestY) => (52 + Math.max(0, latestY)) / 52);
 
   useEffect(() => {
     const checkTheme = () => {
@@ -38,10 +40,43 @@ export const LightPullThemeSwitcher: React.FC = () => {
     setIsDark(nextDark);
   };
 
+  const handleDragEnd = (_event: any, info: any) => {
+    if (info.offset.y > 12) {
+      toggleDarkMode();
+    }
+
+    // Smoothly animate spring return for both bulb position and cord scale
+    animate(dragY, 0, {
+      type: "spring",
+      stiffness: 600,
+      damping: 28,
+      mass: 0.35,
+    });
+
+    setTimeout(() => {
+      isDraggingRef.current = false;
+    }, 150);
+  };
+
   return (
-    <div className="relative flex items-center justify-center shrink-0">
+    <div className="relative flex flex-col items-center justify-start w-8 h-20 shrink-0">
+      {/* 1. FIXED TOP CEILING ANCHOR POINT - Never moves */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600 z-10 pointer-events-none" />
+
+      {/* 2. ELASTIC RUBBER CORD - Fixed at Top Anchor (originY: 0), Stretches Downward */}
       <motion.div
-        animate={controls}
+        style={{
+          scaleY: cordScaleY,
+          originY: 0,
+        }}
+        className={`absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-[52px] pointer-events-none transition-colors duration-300 z-0 ${
+          isDark ? "bg-neutral-600" : "bg-neutral-400"
+        }`}
+      />
+
+      {/* 3. LIGHT/DARK THEME BULB - Drags Downward while cord stretches from fixed top anchor */}
+      <motion.div
+        style={{ y: dragY }}
         drag="y"
         dragDirectionLock
         onDragStart={() => {
@@ -52,36 +87,17 @@ export const LightPullThemeSwitcher: React.FC = () => {
             isDraggingRef.current = true;
           }
         }}
-        onDragEnd={(_event, info) => {
-          if (info.offset.y > 12) {
-            toggleDarkMode();
-          }
-
-          // Explicitly animate bulb back to resting position y = 0
-          controls.start({
-            y: 0,
-            transition: {
-              type: "spring",
-              stiffness: 700,
-              damping: 30,
-              mass: 0.35,
-            },
-          });
-
-          setTimeout(() => {
-            isDraggingRef.current = false;
-          }, 150);
-        }}
+        onDragEnd={handleDragEnd}
         onClick={() => {
           if (!isDraggingRef.current) {
             toggleDarkMode();
           }
         }}
-        dragConstraints={{ top: 0, bottom: 30 }}
-        dragElastic={0.1}
-        dragSnapToOrigin={true}
+        dragConstraints={{ top: 0, bottom: 35 }}
+        dragElastic={0.15}
+        dragSnapToOrigin={false}
         whileDrag={{ cursor: "grabbing" }}
-        className={`relative w-8 h-8 rounded-full cursor-grab active:cursor-grabbing transition-colors duration-300 ${
+        className={`absolute top-[44px] left-1/2 -translate-x-1/2 w-8 h-8 rounded-full cursor-grab active:cursor-grabbing transition-colors duration-300 z-20 ${
           isDark
             ? "bg-[radial-gradient(circle_at_center,_#4b5563,_#1f2937,_#000000)] shadow-[0_0_20px_6px_rgba(31,41,55,0.7)]"
             : "bg-[radial-gradient(circle_at_center,_#facc15,_#fcd34d,_#fef9c3)] shadow-[0_0_20px_8px_rgba(250,204,21,0.5)]"
@@ -92,14 +108,7 @@ export const LightPullThemeSwitcher: React.FC = () => {
             : "Pull or click to switch to dark mode"
         }
         aria-label="Toggle Light/Dark Theme"
-      >
-        {/* Single Vertical Pull Cord extending upward */}
-        <div
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 w-0.5 h-14 pointer-events-none transition-colors duration-300 ${
-            isDark ? "bg-neutral-700" : "bg-neutral-300"
-          }`}
-        />
-      </motion.div>
+      />
     </div>
   );
 };

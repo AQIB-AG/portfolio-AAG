@@ -5,14 +5,14 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="relative min-h-[85vh] lg:min-h-screen pt-16 sm:pt-20 md:pt-22 pb-8 flex items-center overflow-hidden bg-[url('/lightmode_background.png')] dark:bg-[url('/homepage_background.png')] bg-cover bg-center bg-no-repeat transition-all duration-300"
+      className="relative min-h-[85vh] lg:min-h-screen pt-12 sm:pt-16 pb-4 lg:pb-8 flex flex-col overflow-hidden bg-[url('/lightmode_background.png')] dark:bg-[url('/homepage_background.png')] bg-cover bg-bottom bg-no-repeat transition-all duration-300"
     >
-
-      {/* Main Grid Container - Reconstructed from UI Specification */}
-      <div className="relative z-10 w-full max-w-[1320px] mx-auto px-6 sm:px-10 md:px-16 grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
+      {/* Main Grid Container - flex-1 fills remaining vertical space below top navbar */}
+      <div className="relative z-10 flex-1 w-full max-w-[1320px] mx-auto px-6 sm:px-10 md:px-16 grid grid-cols-1 lg:grid-cols-12 items-stretch gap-8 lg:gap-4">
         
         {/* Left Column: Typography & Social Glass CTAs */}
-        <div className="lg:col-span-7 flex flex-col items-start text-left pt-2 lg:pt-0">
+        {/* pt-24 sm:pt-28 md:pt-32 lg:pt-36 moves the entire text composition downward, creating vertical breathing room below the navbar matching reference */}
+        <div className="lg:col-span-7 flex flex-col items-start justify-center text-left pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-8 lg:pb-14">
           
           {/* Natural Greeting Badge */}
           <span className="text-xs md:text-sm font-normal tracking-[0.3em] uppercase text-neutral-600 dark:text-slate-400 dark:tracking-normal dark:font-medium mb-2.5">
@@ -66,7 +66,8 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Right Column: 3D Mini-Me Figurine & Person Visual */}
-        <div className="lg:col-span-5 flex justify-center lg:justify-end items-end min-h-[440px] sm:min-h-[500px] lg:min-h-[580px] pt-4 lg:pt-0">
+        {/* Positioned in center-right area with full unconstrained vertical height anchored near the floor */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-center items-end pt-4 lg:pt-0 pb-2 lg:pb-6 relative z-10">
           
           {/* Single Character & Ground Shadow Composition Container */}
           <div className="relative inline-flex flex-col items-center justify-end">
@@ -74,14 +75,14 @@ export const Hero: React.FC = () => {
             {/* ONE AND ONLY ONE FLOOR SHADOW */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 bottom-[-2px] z-0 -translate-x-1/2 w-[78%] h-[22px] rounded-[50%] bg-black/40 dark:bg-black/55 blur-[12px] dark:blur-[14px]"
+              className="pointer-events-none absolute left-1/2 bottom-0 z-0 -translate-x-1/2 w-[82%] h-[18px] rounded-[50%] bg-black/20 dark:bg-black/50 blur-[12px] dark:blur-[10px]"
             />
 
-            {/* Clean Original Approved Transparent 3D Mini-Me Bobblehead & Person Asset */}
+            {/* Clean Original Approved Transparent 3D Mini-Me Bobblehead & Person Asset (80% Scale) */}
             <img
               src="/hero_avatar_3d.png"
               alt="Aqib Abdul Ghaffar - 3D Bobblehead & Standing Developer Character"
-              className="w-auto h-[440px] sm:h-[500px] lg:h-[560px] xl:h-[590px] max-h-[82vh] object-contain object-bottom relative z-10 select-none pointer-events-none transition-transform duration-500"
+              className="w-auto h-[317px] sm:h-[360px] lg:h-[418px] xl:h-[454px] 2xl:h-[482px] object-contain object-bottom relative z-10 select-none pointer-events-none transition-transform duration-300"
             />
           </div>
 

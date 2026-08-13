@@ -46,11 +46,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = "home", onNaviga
   return (
     <header className="fixed top-10 inset-x-0 z-50 w-full transition-all duration-300">
       <div className="relative mx-auto flex w-full max-w-[1400px] items-center justify-between px-8 md:px-16">
-
-        {/* LEFT: Exact Original Uploaded Monogram Logo Artwork Asset */}
+        
+        {/* LEFT: Logo - Visible at scrollY = 0, smoothly hides on scroll */}
         <Link
           to="/"
-          className="flex items-center group transition-transform duration-300 hover:scale-[1.02] relative z-20"
+          className={`flex items-center group transition-all duration-300 hover:scale-[1.02] relative z-20 ${
+            scrolled
+              ? "opacity-0 -translate-y-2 pointer-events-none"
+              : "opacity-100 translate-y-0 pointer-events-auto"
+          }`}
         >
           <img
             src="/logo.png"
@@ -59,12 +63,14 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = "home", onNaviga
           />
         </Link>
 
-        {/* CENTER: Multi-Layered Mathematically Centered Apple Liquid Glass Capsule Navigation */}
+        {/* CENTER: Multi-Layered Mathematically Centered Apple Liquid Glass Capsule Navigation
+            Remains 100% visible & sticky at top across all scroll positions */}
         <nav
-          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full liquid-glass-navbar overflow-hidden z-40 ${scrolled
-            ? "border-white/25 shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
-            : ""
-            }`}
+          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full liquid-glass-navbar overflow-hidden z-40 transition-all duration-300 ${
+            scrolled
+              ? "border-white/25 shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
+              : ""
+          }`}
         >
           {/* Layer 1: Top Edge Specular Reflection Stroke */}
           <span className="liquid-glass-highlight" />
@@ -81,10 +87,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = "home", onNaviga
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`relative px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-250 ease-out z-20 ${isActive
-                    ? "text-neutral-950 dark:text-white font-semibold dark:font-medium"
-                    : "text-neutral-700/90 dark:text-slate-300/80 hover:text-black dark:hover:text-white"
-                    }`}
+                  className={`relative px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-250 ease-out z-20 ${
+                    isActive
+                      ? "text-neutral-950 dark:text-white font-semibold dark:font-medium"
+                      : "text-neutral-700/90 dark:text-slate-300/80 hover:text-black dark:hover:text-white"
+                  }`}
                 >
                   {isActive && (
                     <motion.span
@@ -110,13 +117,25 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = "home", onNaviga
           </LayoutGroup>
         </nav>
 
-        {/* RIGHT: Light Pull Theme Switcher & LET'S TALK CTA Button */}
-        <div className="flex items-center gap-6 sm:gap-7 relative z-20">
-          <LightPullThemeSwitcher />
+        {/* RIGHT: Theme Switcher Bulb & LET'S TALK CTA Button */}
+        {/* Increased gap-9 sm:gap-11 creates clear horizontal separation between bulb and button */}
+        <div className="flex items-center gap-9 sm:gap-11 relative z-20">
+          
+          {/* Theme Switcher Bulb - Hides smoothly on scroll */}
+          <div
+            className={`transition-all duration-300 ${
+              scrolled
+                ? "opacity-0 -translate-y-2 pointer-events-none"
+                : "opacity-100 translate-y-0 pointer-events-auto"
+            }`}
+          >
+            <LightPullThemeSwitcher />
+          </div>
 
+          {/* LET'S TALK Button - Remains visible & sticky at top alongside Navbar on scroll */}
           <Link
             to="/contact"
-            className="flex items-center gap-2.5 px-6 py-2.5 rounded-full text-xs md:text-sm font-medium tracking-[0.14em] text-neutral-900 dark:text-white border border-neutral-800/80 dark:border-indigo-400/50 liquid-glass-control hover:border-black dark:hover:border-indigo-400/90 transition-all duration-300 group relative overflow-hidden"
+            className="flex items-center gap-2.5 px-6 py-2.5 rounded-full text-xs md:text-sm font-medium tracking-[0.14em] text-neutral-900 dark:text-white border border-neutral-800/80 dark:border-indigo-400/50 liquid-glass-control hover:border-black dark:hover:border-indigo-400/90 transition-all duration-300 group relative overflow-hidden pointer-events-auto"
           >
             <span className="absolute top-0 left-3 right-3 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
             <span className="relative z-10">LET'S TALK</span>

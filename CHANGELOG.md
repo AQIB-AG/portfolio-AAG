@@ -2,6 +2,52 @@
 
 All notable changes to the **Aqib Abdul Ghaffar Portfolio** project will be documented in this file.
 
+## [0.78.0] - 2026-08-14
+### Fixed
+- **Restoration of Clean Original High-Res 3D Character Asset (`/hero_avatar_3d.png`)**:
+  - Traced root cause of light-mode character edge corruption: A local Python script (`clean_hero_asset.py`) had run an unmixing algorithm on `frontend/public/hero_avatar_3d.png` which stripped alpha channels and created dark fringe artifacts on edge pixels.
+  - Restored the clean original 281KB 32-bit transparent PNG asset directly from git history (`5d9b044`) to `frontend/public/hero_avatar_3d.png` and `frontend/dist/hero_avatar_3d.png`.
+  - Removed `clean_hero_asset.py` to prevent any future automated alterations.
+  - Both Light Mode and Dark Mode now share the exact same clean, uncorrupted transparent asset (`/hero_avatar_3d.png`) with razor-sharp silhouettes, complete wooden pedestal base, and zero dark fringe halos or broken corners.
+
+## [0.77.0] - 2026-08-14
+### Fixed
+- **Fixed Top Ceiling Anchor Elastic Rubber Cord for Theme Switcher**:
+  - Refactored [LightPullThemeSwitcher.tsx](file:///c:/Users/aqib2/Downloads/portfolio_lightmode_fixed/frontend/src/components/LightPullThemeSwitcher.tsx): Fixed top ceiling anchor point (`absolute top-0 left-1/2 -translate-x-1/2`) so top of cord never moves when pulling bulb.
+  - Applied `scaleY` with `originY: 0` (`transform-origin: top center`) to the pull cord `<motion.div>` driven by `useTransform(dragY, (y) => (52 + y) / 52)`.
+  - When pulling bulb downward, cord stretches downward like elastic rubber with zero top detachment or ceiling gap.
+  - Releasing bulb triggers smooth spring return (`animate(dragY, 0, ...)`), returning bulb and cord back to resting state.
+- **3D Hero Composition 80% Scale Reduction**:
+  - Updated [Hero.tsx](file:///c:/Users/aqib2/Downloads/portfolio_lightmode_fixed/frontend/src/components/Hero.tsx): Scaled 3D character composition (`/hero_avatar_3d.png`) to exactly 80% of its previous rendering dimensions (`h-[317px] sm:h-[360px] lg:h-[418px] xl:h-[454px] 2xl:h-[482px]`).
+  - Preserved image aspect ratio, pedestal grounding, left text alignment, and dark mode baseline 100%.
+
+## [0.76.0] - 2026-08-14
+### Changed
+- **Sticky Navigation & Dynamic Header Scroll Behavior**:
+  - Updated [Navbar.tsx](file:///c:/Users/aqib2/Downloads/portfolio_lightmode_fixed/frontend/src/components/Navbar.tsx): At `scrollY = 0` (`scrolled === false`), all 4 header elements (**Logo**, **Center Navigation Capsule**, **Theme Pull Bulb**, **LET'S TALK Button**) are visible in their exact top positions.
+  - When scrolling down (`scrolled === true`, `scrollY > 40`), the **Center Navigation Capsule** and **LET'S TALK Button** remain 100% visible & sticky at top, while the **Logo** and **Theme Pull Bulb** smoothly fade out (`opacity-0 -translate-y-2 pointer-events-none`).
+  - Scrolling back to top (`scrolled === false`) smoothly fades the **Logo** and **Theme Pull Bulb** back into view.
+- **Theme Bulb & LET'S TALK Horizontal Separation**:
+  - Increased horizontal gap in [Navbar.tsx](file:///c:/Users/aqib2/Downloads/portfolio_lightmode_fixed/frontend/src/components/Navbar.tsx) from `gap-6 sm:gap-7` to `gap-9 sm:gap-11`, creating clean breathing room between the theme bulb and LET'S TALK button.
+- **3D Hero Composition 90% Scale Reduction**:
+  - Updated [Hero.tsx](file:///c:/Users/aqib2/Downloads/portfolio_lightmode_fixed/frontend/src/components/Hero.tsx): Reduced 3D character asset (`/hero_avatar_3d.png`) to exactly 90% of its previous rendering dimensions (`h-[396px] sm:h-[450px] lg:h-[522px] xl:h-[567px] 2xl:h-[603px]`).
+  - Preserved left Hero text alignment, marble studio background, and dark mode baseline 100%.
+
+## [0.75.0] - 2026-08-14
+### Changed
+- **Independent Home Navigation Scrolling Architecture**:
+  - Refactored [Navbar.tsx](file:///c:/Users/aqib2/Downloads/portfolio_lightmode_fixed/frontend/src/components/Navbar.tsx) into a dual-layer positioning model.
+  - Layer 1 (`fixed top-10 inset-x-0 z-50 pointer-events-none`): Viewport-fixed overlay keeping the **Monogram Logo** (top-left) and **Theme Pull Bulb** (top-right) fixed on the viewport across all scroll positions.
+  - Layer 2 (`absolute top-10 inset-x-0 z-40`): Normal-flow scrolling header allowing the **Center Apple Liquid Glass Navigation Capsule** and **LET'S TALK Button** to scroll naturally with the page content and move upward out of view on scroll.
+  - Preserved 100% of exact pixel coordinates at `scrollY = 0`, logo artwork, active tab spring animations, theme switcher logic, and Hero layout.
+
+## [0.74.0] - 2026-08-14
+### Fixed
+- **Precision Hero Positioning & Character Rendering**:
+  - Restored vertical breathing space between top navbar/logo and left Hero text block (`pt-24 sm:pt-28 md:pt-32 lg:pt-36`), placing "HI, I'M" -> "AQIB" -> "ABDUL GHAFFAR" -> description -> social buttons in the middle section of the hero area matching target visual reference.
+  - Adjusted right character column alignment (`lg:justify-center`), moving the 3D bobblehead + standing figure composition away from the far right edge into the center-right area.
+  - Corrected image container sizing and bottom padding (`pb-4 lg:pb-8`), allowing the wooden pedestal box and shoes to sit cleanly on the horizontal floor plane without clipping or edge artifacts.
+
 ## [0.73.0] - 2026-08-12
 ### Fixed
 - **Theme-Aware Body Background & Light Mode Studio Environment (Reference 3)**:
