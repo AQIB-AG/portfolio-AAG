@@ -15,14 +15,14 @@ export const Hero: React.FC = () => {
         <div className="lg:col-span-7 flex flex-col items-start justify-center text-left pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-8 lg:pb-14">
           
           {/* Natural Greeting Badge */}
-          <span className="text-xs md:text-sm font-normal tracking-[0.3em] uppercase text-neutral-600 dark:text-slate-400 dark:tracking-normal dark:font-medium mb-2.5">
+          <span className="text-xs md:text-sm font-medium tracking-normal uppercase text-neutral-600 dark:text-slate-400 mb-2.5">
             HI, I'M
           </span>
 
           {/* Display Heading - Line 1: AQIB, Line 2: ABDUL GHAFFAR */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] text-neutral-900 dark:text-white uppercase leading-[1.08] mb-5 tracking-[0.18em] dark:tracking-tight font-normal dark:font-bold">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] text-neutral-900 dark:text-white uppercase leading-[1.08] mb-5 tracking-tight font-bold">
             AQIB <br />
-            <span className="text-neutral-900 dark:text-white font-normal dark:font-bold">
+            <span className="text-neutral-900 dark:text-white font-bold">
               ABDUL GHAFFAR
             </span>
           </h1>
@@ -75,14 +75,21 @@ export const Hero: React.FC = () => {
             {/* ONE AND ONLY ONE FLOOR SHADOW */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 bottom-0 z-0 -translate-x-1/2 w-[82%] h-[18px] rounded-[50%] bg-black/20 dark:bg-black/50 blur-[12px] dark:blur-[10px]"
+              className="pointer-events-none absolute left-1/2 bottom-0 z-0 -translate-x-1/2 w-[82%] h-[18px] rounded-[50%] bg-black/50 blur-[10px]"
             />
 
-            {/* Clean Original Approved Transparent 3D Mini-Me Bobblehead & Person Asset (80% Scale) */}
+            {/* Light Mode — supplied transparent asset */}
+            <img
+              src="/hero_avatar_3d_light.png"
+              alt="Aqib Abdul Ghaffar - 3D Bobblehead & Standing Developer Character"
+              className="dark:hidden w-auto h-[317px] sm:h-[360px] lg:h-[418px] xl:h-[454px] 2xl:h-[482px] object-contain object-bottom relative z-10 select-none pointer-events-none transition-transform duration-300"
+            />
+
+            {/* Dark Mode — original approved asset; do not modify */}
             <img
               src="/hero_avatar_3d.png"
               alt="Aqib Abdul Ghaffar - 3D Bobblehead & Standing Developer Character"
-              className="w-auto h-[317px] sm:h-[360px] lg:h-[418px] xl:h-[454px] 2xl:h-[482px] object-contain object-bottom relative z-10 select-none pointer-events-none transition-transform duration-300"
+              className="hidden dark:block w-auto h-[317px] sm:h-[360px] lg:h-[418px] xl:h-[454px] 2xl:h-[482px] object-contain object-bottom relative z-10 select-none pointer-events-none transition-transform duration-300"
             />
           </div>
 

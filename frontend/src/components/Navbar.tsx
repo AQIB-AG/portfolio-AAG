@@ -44,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = "home", onNaviga
   };
 
   return (
-    <header className="fixed top-10 inset-x-0 z-50 w-full transition-all duration-300">
+    <header className="fixed top-4 inset-x-0 z-50 w-full transition-all duration-300">
       <div className="relative mx-auto flex w-full max-w-[1400px] items-center justify-between px-8 md:px-16">
         
         {/* LEFT: Logo - Visible at scrollY = 0, smoothly hides on scroll */}
